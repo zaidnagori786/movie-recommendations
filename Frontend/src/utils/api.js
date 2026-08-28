@@ -4,7 +4,7 @@ import axios from "axios";
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://movie-recommendation-3-3dwn.onrender.com/api",
+  baseURL: " https://movie-recommendation-4-hwm6.onrender.com/api",
 });
 
 API.interceptors.request.use((req) => {
