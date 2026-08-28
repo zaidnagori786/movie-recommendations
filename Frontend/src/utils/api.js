@@ -1,16 +1,34 @@
 import axios from "axios";
 
-const API = axios.create({  baseURL: " https://movie-recommendation-3-3dwn.onrender.com/api", });
+
+import axios from "axios";
+
+const API = axios.create({
+  baseURL: "https://movie-recommendation-3-3dwn.onrender.com/api",
+});
 
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem("token");
-  if (token) req.headers.Authorization = `Bearer ${token}`;
+
+  if (token) {
+    req.headers.Authorization = `Bearer ${token}`;
+  }
+
   return req;
 });
 
-// export const removeFavorite = (movieId) =>
-//   API.delete("/auth/favorites", { data: { movieId } });
 export default API;
+// const API = axios.create({  baseURL: " https://movie-recommendation-3-3dwn.onrender.com/api", });
+
+// API.interceptors.request.use((req) => {
+//   const token = localStorage.getItem("token");
+//   if (token) req.headers.Authorization = `Bearer ${token}`;
+//   return req;
+// });
+
+// // export const removeFavorite = (movieId) =>
+// //   API.delete("/auth/favorites", { data: { movieId } });
+// export default API;
 
 //
 
