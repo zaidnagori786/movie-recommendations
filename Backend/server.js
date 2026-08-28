@@ -15,10 +15,11 @@ const app = express();
 
 
 // Middleware
-app.use(
-  cors()
-);
+import cors from "cors";
 
+app.use(cors({
+  origin: "movie-recommendation-nine-khaki.vercel.app"
+}));
 app.use(express.json());
 
 // Routes
