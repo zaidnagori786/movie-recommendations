@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
+import axios from "axios"; 
 
 import authRoutes from "./routes/auth.js";
 import movieRoutes from "./routes/movies.js";
@@ -12,13 +12,11 @@ dotenv.config();
 
 const app = express();
 
+
+
 // Middleware
 app.use(
-  cors({
-    origin: "https://movie-recommendationss.onrender.com", // your frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
+  cors()
 );
 
 app.use(express.json());

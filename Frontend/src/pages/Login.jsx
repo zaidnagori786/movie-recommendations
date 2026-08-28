@@ -8,33 +8,41 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await API.post("/auth/login", { email, password });
-      localStorage.setItem("token", data.token);
-      alert("✅ Login successful!");
-      navigate("/Home");
-    } catch {
-      alert("❌ Invalid email or password");
-    }
-  };
+  e.preventDefault();
+  try {
+    const { data } = await API.post("/auth/login", { email, password });
+
+    // Save token
+    localStorage.setItem("token", data.token);
+
+    // Save user info
+    localStorage.setItem("user", JSON.stringify({
+      name: data.user.name,
+      email: data.user.email,
+      subscription: data.user.subscription || "Free",
+      favoritesCount: data.user.favoritesCount || 0,
+    }));
+
+    // Dispatch event for Navbar update
+    window.dispatchEvent(new Event("storageUpdated"));
+
+    alert("✅ Login successful!");
+    navigate("/Home");
+  } catch {
+    alert("❌ Invalid email or password");
+  }
+};
+
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center text-white overflow-hidden">
-      {/* Cinematic overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-black/70 to-purple-900/60 backdrop-blur-sm"></div>
 
-      {/* Floating particles effect */}
-      <div className="absolute inset-0">
-        <div className="w-[150%] h-[150%] animate-pulse opacity-10 bg-[radial-gradient(circle_at_center,_#ffffff_0%,_transparent_60%)] blur-3xl"></div>
-      </div>
-
-      {/* Login Card */}
       <div className="relative z-10 w-full max-w-md bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-[0_0_40px_rgba(0,0,0,0.6)] hover:shadow-[0_0_60px_rgba(147,51,234,0.4)] transition-all duration-500">
         <h2 className="text-4xl font-extrabold text-center mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-      Login🎬
+          Login 🎬
         </h2>
-    
+
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-gray-300 mb-1 text-sm">Email</label>

@@ -3,8 +3,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../models/User.js";
+import axios from "axios"; // For Google OAuth user info
 import authMiddleware from "../middleware/authMiddleware.js";
-
 dotenv.config();
 const router = express.Router();
 
@@ -61,6 +61,75 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// ✅ Google OAuth Login / Signup
+router.post("/google", async (req, res) => {
+  try {
+    const { access_token } = req.body;
+
+    if (!access_token) {
+      return res.status(400).json({ message: "Access token missing" });
+    }
+
+    // 🔐 Get user info from Google
+    const googleRes = await axios.get(
+      "https://www.googleapis.com/oauth2/v3/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+
+    const { email, name, picture } = googleRes.data;
+
+    if (!email) {
+      return res.status(400).json({ message: "Google authentication failed" });
+    }
+
+    // 🔍 Find user
+    let user = await User.findOne({ email });
+
+    // 🚫 If user exists but registered with email/password
+    if (user && user.password) {
+      return res.status(400).json({
+        message: "This email is registered with password login",
+      });
+    }
+
+    // 🆕 Create user if not exists
+    if (!user) {
+      user = await User.create({
+        name,
+        email,
+        password: null,
+        provider: "google",
+        avatar: picture,
+        favorites: [],
+      });
+    }
+
+    // 🔑 CREATE JWT (THIS IS IMPORTANT)
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    // ✅ SEND RESPONSE (THIS IS WHAT YOU ASKED)
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    console.error("Google Auth Error:", error);
+    res.status(500).json({ message: "Google authentication failed" });
+  }
+});
+
 
 
 
@@ -102,6 +171,9 @@ router.delete("/favorites/:id", authMiddleware, async (req, res) => {
   await User.findByIdAndUpdate(userId, { $pull: { favorites: movieId } });
   res.json({ success: true });
 });
+
+
+
 
 
 export default router;

@@ -7,7 +7,7 @@ import Signup from "./pages/Signup.jsx";
 import Favorites from "./pages/Favorites.jsx";
 import FirstPage from "./pages/FirstPage.jsx";
 import Subscription from "./pages/Subscription.jsx";
-
+import Profile from "./pages/Profile.jsx";
 export default function App() {
   return (
     <Router>
@@ -17,6 +17,7 @@ export default function App() {
         <Route path="/firstpage" element={<FirstPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+         <Route path="/profile" element={<Profile />} />
         <Route path="/home" element={<Home />} /> {/* ✅ Home after login */}
         <Route path="/movie/:id" element={<MovieDetail />} />
         <Route path="/favorites" element={<Favorites />} />
@@ -26,3 +27,5 @@ export default function App() {
     </Router>
   );
 }
+
+

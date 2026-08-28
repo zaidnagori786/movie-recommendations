@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../contex/UserContext.jsx";
+
 
 export default function Subscription() {
   const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [showPayment, setShowPayment] = useState(false);
-
+    const { user, handleChangePlan } = useContext(UserContext);
   const plans = [
     {
       name: "Basic Plan",
@@ -53,8 +56,19 @@ export default function Subscription() {
       alert("⚠️ Please select a payment method!");
       return;
     }
+    // alert(`✅ Payment successful for ${selectedPlan.name} using ${paymentMethod}!\nEnjoy streaming 🎬`);
+    // navigate("/home");
+    
+  if (selectedPlan) {
+    // ✅ Update the user's subscription in the global context
+    handleChangePlan(selectedPlan.name);
+
     alert(`✅ Payment successful for ${selectedPlan.name} using ${paymentMethod}!\nEnjoy streaming 🎬`);
-    navigate("/home");
+    setShowPayment(false);
+    navigate("/profile"); // redirect after payment
+  } else {
+    alert("⚠️ No plan selected!");
+  }
   };
 
   return (

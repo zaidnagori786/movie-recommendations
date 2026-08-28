@@ -12,7 +12,7 @@ export default function SplitLayout() {
 
   const TMDB_KEY = "f91aa496d9470e9d690de49a13933feb";
 
-  // 🧩 Fetch trending movies
+  // Fetch trending movies
   useEffect(() => {
     (async () => {
       try {
@@ -24,7 +24,7 @@ export default function SplitLayout() {
     })();
   }, []);
 
-  // 🔍 Fetch search suggestions
+  // Fetch search suggestions
   useEffect(() => {
     const t = setTimeout(async () => {
       if (!search.trim()) {
@@ -56,13 +56,22 @@ export default function SplitLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-neutral-900 to-slate-900 text-white overflow-hidden flex items-center justify-center p-6 md:p-12">
-      <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat relative overflow-hidden flex items-center justify-center p-6 md:p-12"
+      style={{
+        backgroundImage: `url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80')`,
+      }}
+    >
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-black/60"></div>
+
+      <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
         
+        {/* Left Section */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 order-1 lg:order-1">
           <h1 className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight">
             Unlimited movies, shows,{" "}
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-blue-400">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
               and more.
             </span>
           </h1>
@@ -72,7 +81,7 @@ export default function SplitLayout() {
             favorites. Sign in to explore the best of cinema.
           </p>
 
-          {/* 🔍 Search Bar */}
+          {/* Search Bar */}
           <div className="w-full max-w-md relative">
             <input
               value={search}
@@ -80,10 +89,10 @@ export default function SplitLayout() {
               onFocus={() => setIsFocused(true)}
               onBlur={() => setTimeout(() => setIsFocused(false), 150)}
               placeholder="Search movies, shows..."
-              className="w-full px-5 py-3 rounded-2xl bg-black/60 border border-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-600 shadow-lg backdrop-blur-lg"
+              className="w-full px-5 py-3 rounded-2xl bg-white/10 border border-gray-600 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-lg backdrop-blur-md"
             />
             {isFocused && suggestions.length > 0 && (
-              <div className="absolute left-0 right-0 mt-2 bg-black/90 border border-gray-700 rounded-xl shadow-lg overflow-auto max-h-64 z-50 backdrop-blur-md">
+              <div className="absolute left-0 right-0 mt-2 bg-white/5 border border-gray-700 rounded-xl shadow-xl overflow-auto max-h-64 z-50 backdrop-blur-sm">
                 {suggestions.map((s) => (
                   <div
                     key={s.id}
@@ -91,7 +100,7 @@ export default function SplitLayout() {
                       e.preventDefault();
                       handleSuggestionClick(s);
                     }}
-                    className="flex items-center gap-3 px-4 py-2 hover:bg-white/5 cursor-pointer transition"
+                    className="flex items-center gap-3 px-4 py-2 hover:bg-white/10 cursor-pointer transition"
                   >
                     <img
                       src={`https://image.tmdb.org/t/p/w92${s.poster_path}`}
@@ -110,17 +119,17 @@ export default function SplitLayout() {
             )}
           </div>
 
-          {/* 🔘 Buttons */}
+          {/* Buttons */}
           <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <Link
               to="/login"
-              className="px-6 py-3 bg-gradient-to-r from-fuchsia-600 to-blue-600 rounded-full font-semibold hover:shadow-[0_0_25px_rgba(150,80,255,0.6)] transition transform hover:scale-105"
+              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full font-semibold hover:shadow-[0_0_30px_rgba(100,150,255,0.6)] transition transform hover:scale-105"
             >
               Login
             </Link>
             <button
               onClick={() => setShowInfo(!showInfo)}
-              className="px-6 py-3 border border-gray-700 rounded-full hover:bg-white/5 transition text-white font-medium"
+              className="px-6 py-3 border border-gray-600 rounded-full hover:bg-white/10 transition text-white font-medium"
             >
               {showInfo ? "Hide Info" : "Learn More"}
             </button>
@@ -139,9 +148,9 @@ export default function SplitLayout() {
           )}
         </div>
 
-        {/* 🍿 Right Section - Hidden on mobile */}
+        {/* Right Section */}
         <div className="relative justify-center items-center order-2 lg:order-2 hidden md:flex">
-          <div className="absolute inset-0 bg-fuchsia-600/10 blur-[100px] rounded-full -z-10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-blue-600/20 to-indigo-600/10 blur-[120px] rounded-full -z-10" />
           <div className="flex items-center justify-center gap-6">
             {trending.slice(0, 3).map((m, i) => (
               <div
@@ -151,7 +160,7 @@ export default function SplitLayout() {
                 }`}
                 style={{ transform: `translateY(${i === 1 ? "-10px" : "0"})` }}
               >
-                <div className="relative overflow-hidden rounded-2xl shadow-[0_0_25px_rgba(255,255,255,0.1)] hover:shadow-[0_0_35px_rgba(250,80,255,0.4)] transition-all duration-500">
+                <div className="relative overflow-hidden rounded-2xl shadow-[0_0_25px_rgba(255,255,255,0.1)] hover:shadow-[0_0_35px_rgba(100,150,255,0.4)] transition-all duration-500">
                   <img
                     src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
                     alt={m.title}
