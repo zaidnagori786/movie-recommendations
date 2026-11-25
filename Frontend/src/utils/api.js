@@ -2,9 +2,8 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: import.meta.env.DEV
-    ? "http://localhost:5000/api"
-    : "https://movie-recommendations-69op.onrender.com/api",
+//  baseURL: "http://localhost:5000/api",
+ baseURL: "https://movie-recommendations-69op.onrender.com",
 });
 
 API.interceptors.request.use((req) => {
