@@ -19,7 +19,7 @@ const { login } = useContext(UserContext);
 const googleLogin = useGoogleLogin({
   onSuccess: async (tokenResponse) => {
     try {
-      const res = await API.post("/auth/google", {
+      const res = await API.post("/api/auth/google", {
         access_token: tokenResponse.access_token,
       });
 
@@ -38,10 +38,11 @@ const googleLogin = useGoogleLogin({
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.post("/auth/signup", { name, email, password });
+      await API.post("/auth/auth/signup", { name, email, password });
       alert("✅ Registered successfully!");
       navigate("/login");
     } catch {
+      console.error("Signup Error:", error.response?.data || error.message);
       alert("❌ Registration failed. Try again!");
     }
   };
