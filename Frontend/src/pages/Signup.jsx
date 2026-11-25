@@ -35,17 +35,42 @@ const googleLogin = useGoogleLogin({
   },
 });
   // Normal email signup
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await API.post("/api/auth/signup", { name, email, password });
-      alert("✅ Registered successfully!");
-      navigate("/login");
-    } catch {
-      console.error("Signup Error:", error.response?.data || error.message);
-      alert("❌ Registration failed. Try again!");
-    }
-  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await API.post("/api/auth/signup", { name, email, password });
+  //     alert("✅ Registered successfully!");
+  //     navigate("/login");
+  //   } catch {
+  //     console.error("Signup Error:", error.response?.data || error.message);
+  //     alert("❌ Registration failed. Try again!");
+  //   }
+  // };
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    await API.post("/api/auth/signup", {
+      name,
+      email,
+      password
+    });
+
+    alert("✅ Registered successfully!");
+    navigate("/login");
+
+  } catch (error) {
+    console.error(
+      "Signup Error:",
+      error.response?.data || error.message
+    );
+
+    alert("❌ Registration failed. Try again!");
+  }
+};
+
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1606112219348-204d7d8b94ee?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center text-white">
