@@ -37,7 +37,7 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await API.get("/movies/trending");
+    const { data } = await API.get("/api/movies/trending");
         setTrending(data.slice(0, 10));
       } catch (e) {
         console.error(e);

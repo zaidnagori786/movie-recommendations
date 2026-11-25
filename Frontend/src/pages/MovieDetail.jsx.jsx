@@ -13,10 +13,10 @@ export default function MovieDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await API.get(`/movies/${id}`);
+        const { data } = await API.get(`/api/movies/${id}`);
         setMovie(data);
 
-        const { data: sim } = await API.get(`/movies/${id}/similar`);
+        const { data: sim } = await API.get(`/api/movies/${id}/similar`);
         setSimilar(sim.results || sim);
       } catch (err) {
         console.error("🔥 Error fetching movie or similar:", err);
