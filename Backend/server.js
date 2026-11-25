@@ -21,12 +21,16 @@ const app = express();
 // );
 
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://movie-recommendations-steel.vercel.app",
+  "https://movie-recommendations-git-main-zaid-s-projects-1fa67b07.vercel.app",
+  "https://movie-recommendations-a16hsporc-zaid-s-projects-1fa67b07.vercel.app"
+];
+
 app.use(cors({
-   origin: [
-    "http://localhost:5173",
-    "https://movie-recommendations-steel.vercel.app",
-  ],
-    credentials: true
+  origin: allowedOrigins,
+  credentials: true
 }));
 app.use(express.json());
 

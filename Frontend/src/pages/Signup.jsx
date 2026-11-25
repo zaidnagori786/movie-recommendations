@@ -38,7 +38,7 @@ const googleLogin = useGoogleLogin({
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.post("/auth/auth/signup", { name, email, password });
+      await API.post("/api/auth/signup", { name, email, password });
       alert("✅ Registered successfully!");
       navigate("/login");
     } catch {
