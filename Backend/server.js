@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
 import authRoutes from "./routes/auth.js";
 import movieRoutes from "./routes/movies.js";
 
@@ -14,13 +13,18 @@ const app = express();
 // Middleware
 // ================================
 
-app.use(
-  cors({
-    origin: "https://movie-recommendation-nine-khaki.vercel.app",
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     credentials: true,
+//   })
+// );
 
+
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}));
 app.use(express.json());
 
 // ================================
